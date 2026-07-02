@@ -35,19 +35,15 @@ export async function signup(req, res) {
 export async function login(req, res) {
     const { userid, password } = req.body
     const user = await authRepository.findByUserid(userid)
-    if (user) {
-        const isValidPassword = await bcrypt.compare(password, user.password)
-
-        if (!isValidPassword) {
-            return res.status(401).json({ message: "아이디 또는 비밀번호를 확인하세요" })
-        }
-        const token = await createJwtToken(user.id)
-        res.status(200).json({ token, user })
-    } else {
-        if (!isValidPassword) {
-            return res.status(401).json({ message: "아이디 또는 비밀번호를 확인하세요" })
-        }
+    if(!user){
+        return res.status(401).json({ message: "아이디 또는 비밀번호를 확인하세요"})
     }
+    const isValidPassword = await bcrypt.compare(password, user.password)
+    if(!isValidPassword){
+            return res.status(401).json({ message: "아이디 또는 비밀번호를 확인하세요"})
+    }
+    const token = await createJwtToken(user.id)
+    res.status(200).json({ token, user })
 }
 
 // 로그인 유지
