@@ -30,7 +30,6 @@ export async function signup(req, res) {
 }
 
 
-
 // 로그인
 export async function login(req, res) {
     const { userid, password } = req.body
@@ -48,7 +47,11 @@ export async function login(req, res) {
 
 // 로그인 유지
 export async function me(req, res) {
-
+    const user = await authRepository.findById(req.id)
+    if (!user) {
+        return res.status(404).json({ message: "일치하는 사용자가 없습니다" })
+    }
+    res.status(200).json({ token: req.token, userid: user.userid})
 }
 
 
