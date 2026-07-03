@@ -13,7 +13,6 @@ router.get("/", isAuth, postController.getPosts)
 // http://127.0.0.1:8080/post/:id(ObjectId) (GET)
 router.get("/:id", isAuth, postController.getPost)
 
-
 // 포스트 쓰기
 // http://127.0.0.1:8080/post (POST)
 // 로그인된 사용자만 쓸 수 있게
@@ -21,7 +20,8 @@ router.post("/", isAuth, postController.createPost)
 
 // 포스트 수정하기
 
-
 // 포스트 삭제하기
+// http://127.0.0.1:8080/post/:id (DELETE)
+router.delete("/:id", isAuth, postController. deletePost)
 
 export default router
